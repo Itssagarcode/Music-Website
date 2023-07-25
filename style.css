@@ -273,6 +273,7 @@ header .menu-side,
     height: 2px;
     background: rgba(105, 105, 170, .1) ;
     margin: 0px 15px 0px 10px;
+    /*  */
 }
 .master-play .bar .bar2{
     position: absolute;

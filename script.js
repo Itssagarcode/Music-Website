@@ -115,7 +115,7 @@ Array.from(document.getElementsByClassName('songitem')).forEach((e,i) =>{
     e.getElementsByTagName('h5')[0].innerHTML =songs[i].songName;
     e.getElementsByTagName('div')[0].src =songs[i].songName;
 })
-
+// 
 // master play play puase button
 
 let masterPlay = document.getElementById('masterplay');
