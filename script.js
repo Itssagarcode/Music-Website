@@ -116,6 +116,47 @@ Array.from(document.getElementsByClassName('songitem')).forEach((e,i) =>{
     e.getElementsByTagName('div')[0].src =songs[i].songName;
 })
 // 
+// search results section start
+
+let searchResults = document.getElementsByClassName('search-results')[0];
+let input = document.getElementsByTagName('input')[0];
+input.addEventListener('keyup',()=>{
+    let =inputValue = input.value.toUpperCase();
+    let items =  searchResults.getElementsByTagName('a')
+
+    for (let index = 0; index < items.length; index++) {
+        let as = items[index].getElementsByClassName('content')[0]
+        let textValue = as.textContent || as.innerHTML;
+        
+        if (textValue.toUpperCase().indexOf(inputValue) > -1) {
+           items[index].style.display = 'flex' 
+        }else{
+            items[index].style.display = 'none'
+        }
+        if (input.value == 0) {
+            searchResults.style.display ='none'
+        }else{
+            searchResults.style.display = ''
+        }
+    }
+})
+
+songs.forEach(element => {
+    const{id, songName, poster} = element;
+    let card = document.createElement("a")
+    card.classList.add('card')
+    card.href = "#" + id;
+    card.innerHTML = `
+    <img src="${poster}" alt="">
+    <div class="content">
+      ${songName}
+    </div>`;
+    searchResults.appendChild(card)
+});
+
+
+//search results section end 
+
 // master play play puase button
 
 let masterPlay = document.getElementById('masterplay');
@@ -151,6 +192,7 @@ const makeAllBackground = () =>{
 
 let index = 0;
 let posterMasterPlay =document.getElementById('poster-master-play')
+let downloadMusic =document.getElementById('download-music')
 let title = document.getElementById('title')
 
 Array.from(document.getElementsByClassName('playlistplay')).forEach((e) =>{
@@ -162,6 +204,7 @@ Array.from(document.getElementsByClassName('playlistplay')).forEach((e) =>{
         music.play();
         masterPlay.classList.remove('bi-play-fill');
         masterPlay.classList.add('bi-pause-fill');
+        downloadMusic.href = `audio/${index}.mp3`
 
         let songTitles = songs.filter((els) =>{
             return els.id == index;
@@ -170,6 +213,7 @@ Array.from(document.getElementsByClassName('playlistplay')).forEach((e) =>{
          songTitles.forEach(elss =>{
             let {songName} = elss;
             title.innerHTML = songName;
+            downloadMusic.setAttribute('download', songName)
          })
          makeAllBackground()
          Array.from(document.getElementsByClassName('songitem'))[index-1].style.background ="rgba(105, 105, 105, .1)"
@@ -303,7 +347,143 @@ next.addEventListener('click',()=>{
      el.target.classList.add('bi-pause-circle-fill');
      el.target.classList.remove('bi-play-circle-fill');
      wave.classList.add('active1')
+});
+
+//  shuffel button
+
+let shuffle = document.getElementsByClassName('shuffle')[0];
+
+shuffle.addEventListener('click',()=>{
+    let a = shuffle.innerHTML;
+    switch (a) {
+        case "next":
+            shuffle.classList.add('bi-arrow-repeat')
+            shuffle.classList.remove('bi-music-note-beamed')
+            shuffle.classList.remove('bi-shuffle')
+            shuffle.innerHTML ='repeat'
+            break;
+
+            case "repeat":
+                shuffle.classList.remove('bi-arrow-repeat')
+                shuffle.classList.remove('bi-music-note-beamed')
+                shuffle.classList.add('bi-shuffle')
+                shuffle.innerHTML ='random'
+                break;
+
+                
+            case "random":
+                shuffle.classList.remove('bi-arrow-repeat')
+                shuffle.classList.add('bi-music-note-beamed')
+                shuffle.classList.remove('bi-shuffle')
+                shuffle.innerHTML ='next'
+                break;
+    
+    }
 })
+
+
+const nextMusic = ()=>{
+    if (index == songs.length) {
+        index = 1
+    } else {
+        index++;
+    }
+    
+        music.src = `audio/${index}.mp3`;
+        posterMasterPlay.src =`img/${index}.jpg`
+        music.play();
+        masterPlay.classList.remove('bi-play-fill');
+        masterPlay.classList.add('bi-pause-fill');
+        downloadMusic.href = `audio/${index}.mp3`
+    
+        let songTitles = songs.filter((els) =>{
+            return els.id == index;
+        });
+    
+         songTitles.forEach(elss =>{
+            let {songName} = elss;
+            title.innerHTML = songName;
+            downloadMusic.setAttribute('download', songName)
+         })
+         makeAllBackground()
+         Array.from(document.getElementsByClassName('songitem'))[index-1].style.background ="rgba(105, 105, 105, .1)"
+         makeAllPlays();
+         el.target.classList.add('bi-pause-circle-fill');
+         el.target.classList.remove('bi-play-circle-fill');
+         wave.classList.add('active1')
+}
+
+const repeatMusic = ()=>{
+ 
+    index;
+    
+        music.src = `audio/${index}.mp3`;
+        posterMasterPlay.src =`img/${index}.jpg`
+        music.play();
+        masterPlay.classList.remove('bi-play-fill');
+        masterPlay.classList.add('bi-pause-fill');
+        downloadMusic.href = `audio/${index}.mp3`
+    
+        let songTitles = songs.filter((els) =>{
+            return els.id == index;
+        });
+    
+         songTitles.forEach(elss =>{
+            let {songName} = elss;
+            title.innerHTML = songName;
+            downloadMusic.setAttribute('download', songName)
+         })
+         makeAllBackground()
+         Array.from(document.getElementsByClassName('songitem'))[index-1].style.background ="rgba(105, 105, 105, .1)"
+         makeAllPlays();
+         el.target.classList.add('bi-pause-circle-fill');
+         el.target.classList.remove('bi-play-circle-fill');
+         wave.classList.add('active1') 
+} 
+
+const randomMusic = () =>{
+    index = Math.floor((Math.random() * songs.length) +1);
+    
+    music.src = `audio/${index}.mp3`;
+    posterMasterPlay.src =`img/${index}.jpg`
+    music.play();
+    masterPlay.classList.remove('bi-play-fill');
+    masterPlay.classList.add('bi-pause-fill');
+    downloadMusic.href = `audio/${index}.mp3`
+
+    let songTitles = songs.filter((els) =>{
+        return els.id == index;
+    });
+
+     songTitles.forEach(elss =>{
+        let {songName} = elss;
+        title.innerHTML = songName;
+        downloadMusic.setAttribute('download', songName)
+     })
+     makeAllBackground()
+     Array.from(document.getElementsByClassName('songitem'))[index-1].style.background ="rgba(105, 105, 105, .1)"
+     makeAllPlays();
+     el.target.classList.add('bi-pause-circle-fill');
+     el.target.classList.remove('bi-play-circle-fill');
+     wave.classList.add('active1') 
+}
+
+music.addEventListener('ended',()=>{
+   let b = shuffle.innerHTML;
+
+   switch (b) {
+    case 'repeat':
+         repeatMusic();
+        break;
+        case 'next':
+            nextMusic();
+           break;
+           case 'random':
+            randomMusic();
+           break;
+   }
+})
+
 
 
 
