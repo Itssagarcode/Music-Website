@@ -534,3 +534,30 @@ popArtRight.addEventListener('click', ()=>{
 popArtLeft.addEventListener('click', ()=>{
     item.scrollLeft -= 330;
   })
+
+
+//   media
+
+let menuListActiveButton = document.getElementById('menu-list-active-button');
+let menuSide = document.getElementsByClassName('menu-side')[0];
+
+menuListActiveButton.addEventListener('click',()=>{
+      menuSide.style.left = '0%';
+      menuListActiveButton.style.opacity = 0
+})
+
+let songSide =document.getElementsByClassName('song-side')[0];
+
+songSide.addEventListener('click',()=>{
+    menuSide.style.left = '-100%';
+    menuListActiveButton.style.opacity = 1
+})
+
+
+
+
+
+
+
+
+
